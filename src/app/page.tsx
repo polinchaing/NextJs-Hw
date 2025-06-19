@@ -1,20 +1,19 @@
 // import ButtonComponent from "@/components/ButtonComponent";
 // import StaticPage from "./static/page";
 
+
+// import { AuthRequiredError } from "@/lib/exception";
+
 // import BackwardButton from "@/components/BackwardButton";
 // import ForwardButton from "@/components/ForwardButton";
 // import RoutingComponent from "@/components/RoutingButton";
 
 export default function Home() {
-  return (
-    // <div className="flex gap-4">
-    // {/* <StaticPage/>
-    // <ButtonComponent/> */}
-    // <h1>This is HomePage</h1>
-    // <RoutingComponent/>
-    // <ForwardButton/>
-    // <BackwardButton/>
-    // </div>
-    <></>
-  );
+  // const session = null;
+
+  // if(!session) throw new AuthRequiredError();
+  return <h1>
+    {/* <LoadingBlog/> */}
+    Auth user only</h1>
+ 
 }
