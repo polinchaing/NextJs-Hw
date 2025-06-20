@@ -1,16 +1,18 @@
-export default function DashbaordLayout({
-    children
-}:(
-    {
-        children: React.ReactNode
-    }
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import React from "react";
+import Error from "./error";
 
-)){
+
+export default function DashboardLayout({
+    children
+}: {
+    children: React.ReactNode
+}) {
     return (
         <div>
-              {/* <Error error={undefined} reset={new Error)}> */}
+            <ErrorBoundary errorComponent={Error}>
                 {children}
-              {/* </Error> */}
+            </ErrorBoundary>
         </div>
     )
 }

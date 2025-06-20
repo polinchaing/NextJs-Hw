@@ -8,6 +8,7 @@ import { use } from "react";
 const BASE_URL = "https://jsonplaceholder.typicode.com/posts";
 // fetchData
 async function fetchData(){
+    await new Promise(resolve => setTimeout(resolve,3000));
     const res = await fetch(BASE_URL);
     const dataRes = res.json();
     return dataRes;
