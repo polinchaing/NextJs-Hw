@@ -3,6 +3,7 @@ import "./globals.css";
 // import ButtonComponent from "@/components/ButtonComponent";
 import { NavbarComponent } from "@/components/nav/NavbarComponent";
 import { FooterComponent } from "@/components/nav/FooterComponent";
+import React from "react";
 // import styles from './style.module.css'
 
 export const metadata: Metadata = {
@@ -12,8 +13,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -21,6 +24,7 @@ export default function RootLayout({
       >
         <NavbarComponent/>
         {children}
+        {modal}
         <FooterComponent/>
       </body>
     </html>

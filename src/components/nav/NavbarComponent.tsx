@@ -134,13 +134,13 @@ const NavbarComponent= ({
     },
   ],
   auth = {
-    login: { title: "Login", url: "/auth/login" },
-    signup: { title: "Sign up", url: "/auth/signup" },
+    login: { title: "Login", url: "/login" },
+    signup: { title: "Sign up", url: "/signup" },
   },
 }: Navbar1Props) => {
     const pathName = usePathname();
-    if(pathName == '/auth/login' || 
-        pathName == '/auth/signup'
+    if(pathName == '/login' || 
+        pathName == '/signup'
     ){
         return null;
     }
