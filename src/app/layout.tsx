@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 // import ButtonComponent from "@/components/ButtonComponent";
-import { NavbarComponent } from "@/components/(landing)/nav/NavbarComponent";
+// import { NavbarComponent } from "@/components/(landing)/nav/NavbarComponent";
 import { FooterComponent } from "@/components/(landing)/nav/FooterComponent";
 import React from "react";
 // import styles from './style.module.css'
@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body
       >
-        <NavbarComponent/>
+        {/* <NavbarComponent/> */}
         {children}
         {modal}
         <FooterComponent/>
