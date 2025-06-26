@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useActionState } from "react"
+import { BorderBeam } from "@/components/magicui/border-beam";
 
 const initialState = { message: '' };
 
@@ -19,7 +20,7 @@ export function SignUpComponent() {
     const [state, formAction] = useActionState(createUser, initialState);
 
     return (
-        <Card className="w-full max-w-sm">
+        <Card className="relative w-[350px] overflow-hidden py-8 border">
             <CardHeader>
                 <h1 className="font-bold text-2xl text-center">Create Your Account</h1>
             </CardHeader>
@@ -84,6 +85,7 @@ export function SignUpComponent() {
                     Sign Up with Google
                 </Button>
             </CardFooter>
+             <BorderBeam duration={4} size={300} />
         </Card>
     )
 }

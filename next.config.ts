@@ -5,6 +5,12 @@ const nextConfig: NextConfig = {
    compiler: {
     styledComponents: true,
   },
+  eslint:{
+    ignoreDuringBuilds: true
+  },
+  images:{
+   remotePatterns: [new URL('https://avatar.vercel.sh/*')]
+  }
 };
 
 export default nextConfig;

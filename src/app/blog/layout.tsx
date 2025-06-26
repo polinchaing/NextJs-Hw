@@ -1,8 +1,9 @@
 
 import { Suspense } from "react"
 import "../globals.css"
-import Loading from "./loading"
+
 import StyledComponentsRegistry from "@/lib/registry"
+import BlogListSkeleton from "@/components/Skeleton/BlogSkeleton"
 
 export default function BlogLayout(
     {children}:{children: React.ReactNode}
@@ -10,7 +11,7 @@ export default function BlogLayout(
     return(
         <div className="flex justify-center items-center">
               <StyledComponentsRegistry>
-                <Suspense fallback={<Loading/>}>
+                <Suspense fallback={<BlogListSkeleton/>}>
                     {children}
                 </Suspense>
         </StyledComponentsRegistry>

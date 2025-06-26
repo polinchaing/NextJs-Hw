@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 // import ButtonComponent from "@/components/ButtonComponent";
-import { NavbarComponent } from "@/components/nav/NavbarComponent";
-import { FooterComponent } from "@/components/nav/FooterComponent";
+import { NavbarComponent } from "@/components/(landing)/nav/NavbarComponent";
+import { FooterComponent } from "@/components/(landing)/nav/FooterComponent";
 import React from "react";
 // import styles from './style.module.css'
 

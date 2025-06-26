@@ -1,13 +1,8 @@
-// import ButtonComponent from "@/components/ButtonComponent";
-// import StaticPage from "./static/page";
-
-import Link from "next/link";
-
 // import { AuthRequiredError } from "@/lib/exception";
 
-// import BackwardButton from "@/components/BackwardButton";
-// import ForwardButton from "@/components/ForwardButton";
-// import RoutingComponent from "@/components/RoutingButton";
+import { CarouselDApiDemo } from "@/components/(landing)/carousel/CarouselComponent";
+import { MarqueeDemo } from "@/components/(landing)/testimonial/TestimonialComponent";
+import { HeroVideoDialogDemo } from "@/components/(landing)/VideoComponent/VideoComponent";
 
 export default function Home() {
 
@@ -15,8 +10,17 @@ export default function Home() {
 
   // if(!session) throw new AuthRequiredError();
 
-  return <div>
-    <Link href={'/signup'} className="border p-4 bg-red-500 text-white">Link To SignUp</Link>
-  </div>
+  return(
+    <div>
+       <CarouselDApiDemo/>
+       {/* testimonial */}
+       <MarqueeDemo/>
+       {/* video  */}
+       <HeroVideoDialogDemo/>
+       
+    </div>
+   
+    
+  )
  
 }
