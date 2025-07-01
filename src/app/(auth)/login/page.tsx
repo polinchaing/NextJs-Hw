@@ -1,7 +1,11 @@
+import LoginComponent from "@/components/AuthComponent/LoginComponent";
 
 
 export default function LoginPage(){
     return (
-        <h1>This is Login Page</h1>
+       
+           <div className="flex h-[100vh] justify-center items-center">
+                 <LoginComponent/>
+                </div>
     )
 }

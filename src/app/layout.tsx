@@ -4,6 +4,7 @@ import "./globals.css";
 // import { NavbarComponent } from "@/components/(landing)/nav/NavbarComponent";
 import { FooterComponent } from "@/components/(landing)/nav/FooterComponent";
 import React from "react";
+import { NavbarComponent } from "@/components/(landing)/nav/NavbarComponent";
 // import styles from './style.module.css'
 
 export const metadata: Metadata = {
@@ -22,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body
       >
-        {/* <NavbarComponent/> */}
+        <NavbarComponent/>
         {children}
         {modal}
         <FooterComponent/>
