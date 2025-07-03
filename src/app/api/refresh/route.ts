@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Call the external API to refresh the token
-        const response = await fetch(`${process.env.CAR_BASE_URL}/refresh-token`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_CAR_BASE_URL}/refresh-token`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState} from "react";
-import { getAuthToken, getRefreshToken } from "@/lib/auth";
+import { getAuthToken, getRefreshToken, logout } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import secureLocalStorage from "react-secure-storage";
 
@@ -92,6 +92,25 @@ export default function CreateFunction() {
             setRefreshing(false);
         }
     };
+    
+    // logout function
+     const logOutAccessToken = async () => {
+        setRefreshing(true);
+        setError('');
+        setMessage('');
+
+        try {
+            const logOutToken = logout();
+            console.log(logOutToken)
+        } catch (error) {
+            console.error('Token refresh error:', error);
+            setError(error instanceof Error ? error.message : 'Failed to refresh token');
+        } finally {
+            setRefreshing(false);
+        }
+    };
+    
+
     // handle create function 😎
     const createCar = async (userData: CreateCarType) => {
         const access_token = getAuthToken();
@@ -101,7 +120,7 @@ export default function CreateFunction() {
             throw new Error('No access token found. Please login or refresh your token.');
         }
 
-        const response = await fetch(`https://car-nextjs-api.cheatdev.online/cars`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_CAR_BASE_URL}/cars`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -193,6 +212,15 @@ export default function CreateFunction() {
                         className="w-full"
                     >
                         Check Token Status
+                    </Button>
+                    {/* logout */}
+                     <Button 
+                        onClick={logOutAccessToken}
+                        variant="secondary"
+                        size="sm"
+                        className="w-full"
+                    >
+                       Logout
                     </Button>
                 </div>
                 {/* error that occur */}

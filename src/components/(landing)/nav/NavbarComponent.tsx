@@ -12,6 +12,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 import { useEffect, useState } from "react";
+import { getAuthToken } from "@/lib/auth";
+import { ProfileComponent } from "@/components/ProfileComponent/ProfileComponent";
 
 const NavbarComponent = ({  
   logo = {
@@ -60,12 +62,12 @@ const NavbarComponent = ({
   }, []);
 
   if(pathName === '/login' || 
-    pathName === '/signup' ||
-    pathName === '/dashboard/table'
-
+    pathName === '/signup'
   ) {
     return null;
   }
+  const token = getAuthToken();
+  console.log('token', token)
 
   return (
     <section 
@@ -114,7 +116,17 @@ const NavbarComponent = ({
               size="sm"
               className="font-medium hover:bg-gray-100 text-white hover:text-gray-900 transition-all duration-200"
             >
-              <Link href={auth.login.url}>{auth.login.title}</Link>
+              {
+                token? (
+                  <Link href={"/dashboard"}>Dashboard</Link>
+              
+                ):
+                (
+                  //  <Link href={auth.login.url}>{auth.login.title}</Link>
+                  
+                  <ProfileComponent />
+                 )
+              }
             </Button>
             <Button 
               asChild 

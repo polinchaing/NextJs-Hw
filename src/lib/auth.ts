@@ -85,7 +85,7 @@ export const getAuthToken = (): string | null => {
         console.log('=== GET AUTH TOKEN DEBUG ===');
         
         // Check all possible storage keys
-        const possibleKeys = ['authToken', '@secure.s.user', 'token', 'access_token'];
+        const possibleKeys = ['authToken', '@secure.s.user', 'token', 'access_token','@secure.s.refreshToken', '@secure.s.authToken'];
         
         for (const key of possibleKeys) {
             const value = secureLocalStorage.getItem(key) as string | null;
@@ -132,7 +132,7 @@ export const getRefreshToken = (): string | null => {
 export const logout = (): void => {
     try {
         // Clear all possible token keys
-        const keysToRemove = ['authToken', '@secure.s.user', 'token', 'access_token', 'refreshToken', 'refresh_token', 'user'];
+        const keysToRemove = ['authToken', '@secure.s.user', 'token', 'access_token', 'refreshToken', 'refresh_token', 'user', '@secure.s.authToken', '@secure.s.refreshToken'];
         
         keysToRemove.forEach(key => {
             try {

@@ -80,10 +80,8 @@ const FooterComponent = ({
   ],
 }: Footer2Props) => {
      const pathName = usePathname();
-        if( pathName == '/auth/login' || 
-            pathName == '/auth/signup' ||
-            pathName === '/dashboard/table'
-
+        if(pathName == '/auth/login' || 
+            pathName == '/auth/signup'
         ){
             return null;
         }
