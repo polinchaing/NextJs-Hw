@@ -1,45 +1,59 @@
-// import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import createIntlMiddleware from 'next-intl/middleware';
+import { routing } from './i18n/routing';
 
-// export default function middleware(req: NextRequest){
-//     console.log("==========Middleware is Running========");
-//     console.log("==> Next Respone URL", req.url);
-//     console.log("==> Next Response Body", req.body);
+const intlMiddleware = createIntlMiddleware(routing);
 
-//     const isLoggin = false;
+export default async function middleware(req: NextRequest) {
+    console.log("==========Middleware is Running========");
+    console.log("==> Request URL:", req.url);
 
-//     if(!isLoggin && req.nextUrl.pathname.startsWith('/dashboard')){
-//         // return NextResponse.redirect(new URL('/login',req.url))
-//     }
-//     return NextResponse.next();
+    const { pathname } = req.nextUrl;
 
-// }
+    // Skip for API routes and static files
+    if (
+        pathname.startsWith('/api') ||
+        pathname.startsWith('/trpc') ||
+        pathname.startsWith('/_next') ||
+        pathname.startsWith('/_vercel') ||
+        pathname.includes('.')
+    ) {
+        return NextResponse.next();
+    }
 
-// // config matcher
-// export const config={
-//      matcher: ['/dashboard/:path* ']
-// }
+    // First, handle internationalization
+    const intlResponse = intlMiddleware(req);
+    
+    // If internationalization redirected, use that response
+    if (intlResponse?.status === 302) {
+        return intlResponse;
+    }
 
+    // Then handle authentication
+    const token = req.cookies.get('authToken')?.value;
+    console.log("Auth check - Token present:", !!token);
 
-// import createMiddleware from "next-intl/middleware"
+    // Check for dashboard routes (with or without locale prefix)
+    const isDashboard = pathname.includes('/dashboard');
+    
+    if (isDashboard && !token) {
+        console.log("Unauthorized access to dashboard, redirecting to login");
+        
+        // Determine locale from current path
+        const pathSegments = pathname.split('/');
+        const hasLocale = pathSegments[1] && ['en', 'km'].includes(pathSegments[1]);
+        const currentLocale = hasLocale ? pathSegments[1] : 'en';
+        
+        const loginUrl = new URL(`/${currentLocale}/login`, req.url);
+        loginUrl.searchParams.set('callbackUrl', pathname);
+        
+        return NextResponse.redirect(loginUrl);
+    }
 
-// export default createMiddleware({
-//     locales: ["en","km"],
-//     defaultLocale: "en"
-// })
+    // Return the intl response or continue
+    return intlResponse || NextResponse.next();
+}
 
-// export const config ={
-//     matcher: ["/", "/(km|en)/:path*"]
-// }
-
-
-import createMiddleware from 'next-intl/middleware';
-import {routing} from './i18n/routing';
- 
-export default createMiddleware(routing);
- 
 export const config = {
-  // Match all pathnames except for
-  // - … if they start with `/api`, `/trpc`, `/_next` or `/_vercel`
-  // - … the ones containing a dot (e.g. `favicon.ico`)
-  matcher: '/((?!api|trpc|_next|_vercel|.*\\..*).*)'
+    matcher: '/((?!api|trpc|_next|_vercel|.*\\..*).*)'
 };
