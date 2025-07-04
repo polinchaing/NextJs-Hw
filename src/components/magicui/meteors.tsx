@@ -43,7 +43,7 @@ export const Meteors = ({
     <>
       {[...meteorStyles].map((style, idx) => (
         // Meteor Head
-        <span
+        (<span
           key={idx}
           style={{ ...style }}
           className={cn(
@@ -53,7 +53,7 @@ export const Meteors = ({
         >
           {/* Meteor Tail */}
           <div className="pointer-events-none absolute top-1/2 -z-10 h-px w-[50px] -translate-y-1/2 bg-gradient-to-r from-sky-500 to-red-100" />
-        </span>
+        </span>)
       ))}
     </>
   );

@@ -21,16 +21,14 @@ export default async function BlogPage(){
     const dataRes:BlogType[] = await res.json();
     
     return (
-     <div className="container grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
-        
-        {
-        dataRes.map((post)=>(
-            <Link href={`/blog/${post.id} `} key={post.id}>
-            <BlogComponent key={post.id} id={post.id} userId={post.userId} title={post.title} body={post.body}/>
-            </Link>
-        ))
-     }
-     </div>
-      
-    )
+        <div className="container grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+            {
+            dataRes.map((post)=>(
+                <Link href={`/blog/${post.id} `} key={post.id} legacyBehavior>
+                <BlogComponent key={post.id} id={post.id} userId={post.userId} title={post.title} body={post.body}/>
+                </Link>
+            ))
+         }
+        </div>
+    );
 }

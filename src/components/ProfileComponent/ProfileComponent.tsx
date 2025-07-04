@@ -12,7 +12,5 @@ export const ProfileComponent = () => {
 }
 
 export function LinkComponent(){
-    return (
-       <Link href={'/todo'}/>
-    )
+    return (<Link href={'/todo'} legacyBehavior />);
 }

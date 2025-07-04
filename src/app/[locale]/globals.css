@@ -142,16 +142,22 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
 
-  --font-kantumruy: 'KantumruyPro', sans-serif;
-  --font-lexend: 'Lexend', sans-serif;
+html{
+  --font-kantumruy:  "Kantumruy Pro", sans-serif;
+  --font-lexend: "Lexend", sans-serif;
 }
 
 .font-kantumruy {
   font-family: var(--font-kantumruy);
 }
 
-html[lang="km"]{
+body{
+  font-family: var(--font-lexend), var(--font-kantumruy) !important;
+}
+
+:lang(km){
   font-family: var(--font-kantumruy);
 }
 

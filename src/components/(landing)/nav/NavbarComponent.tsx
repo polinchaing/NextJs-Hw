@@ -4,53 +4,42 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
-  NavigationMenuList
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuLink
 } from "@/components/ui/navigation-menu";
 import { Navbar1Props } from "@/lib/nav";
-import renderMenuItem from "./MenuList";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 import { useEffect, useState } from "react";
 import { getAuthToken } from "@/lib/auth";
 import { ProfileComponent } from "@/components/ProfileComponent/ProfileComponent";
+import { useTranslations } from "next-intl";
+import LocaleSwitcher from "@/components/LocaleComponent";
 
 const NavbarComponent = ({  
   logo = {
-    url: "https://www.shadcnblocks.com",
+    url: "/",
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
     alt: "logo",
     title: "Shadcnblocks.com",
   },
   menu = [
-    { title: "Home", url: "#" },
-    {
-      title: "Products",
-      url: "/product"
-   
-    },
-    {
-      title: "Resources",  
-      url: "#"
-    
-    },
-    {
-      title: "Pricing",
-      url: "#",
-    },
-    {
-      title: "Blog",
-      url: "#",
-    },
+    { title: "home", url: "#" },
+    { title: "products", url: "/product" },
+    { title: "about", url: "/about" },
+    { title: "contact", url: "#" }
   ],
   auth = {
-    login: { title: "Login", url: "/login" },
-    signup: { title: "Sign up", url: "/signup" },
+    login: { title: "login", url: "/login" },
+    signup: { title: "register", url: "/signup" },
   }
 }: Navbar1Props) => {
 
   const pathName = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const t = useTranslations('nav');
 
   // Add scroll effect
   useEffect(() => {
@@ -61,19 +50,18 @@ const NavbarComponent = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if(pathName === '/login' || 
-    pathName === '/signup'
-  ) {
+  if(pathName === '/login' || pathName === '/signup') {
     return null;
   }
+
   const token = getAuthToken();
-  console.log('token', token)
+  console.log('token', token);
 
   return (
     <section 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-gray/80 backdrop-blur-lg border-b border-gray-200/50 shadow-lg' 
+          ? 'bg-gray-900/80 backdrop-blur-lg border-b border-gray-200/50 shadow-lg' 
           : 'bg-transparent'
       }`}
     >
@@ -81,7 +69,7 @@ const NavbarComponent = ({
         {/* Desktop Menu */}
         <nav className="hidden justify-between items-center lg:flex h-16">
           <div className="flex items-center gap-8">
-            {/* Logo */}
+            {/* Logo - FIXED: Removed legacyBehavior and multiple children */}
             <Link href={logo.url} className="flex items-center gap-3 group">
               <div className="relative">
                 <Image 
@@ -93,52 +81,83 @@ const NavbarComponent = ({
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-white-500 to-white-600 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-900 to-white bg-clip-text text-transparent group-hover:from-blue-300 group-hover:to-white-600 transition-all duration-300">
+              <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-white bg-clip-text text-transparent group-hover:from-blue-300 group-hover:to-white-600 transition-all duration-300">
                 {logo.title}
               </span>
             </Link>
 
-            {/* Navigation Menu */}
+            {/* Navigation Menu - FIXED: Removed legacyBehavior */}
             <div className="flex items-center">
               <NavigationMenu>
-                <NavigationMenuList className="gap-1 text-white">
-                  {menu.map((item) => renderMenuItem(item))}
+                <NavigationMenuList className="gap-1">
+                  {menu.map((item) => (
+                    <NavigationMenuItem key={item.title}>
+                      <NavigationMenuLink asChild>
+                        <Link 
+                          href={item.url}
+                          className={`group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-white/10 focus:bg-white/10 focus:outline-none disabled:pointer-events-none disabled:opacity-50 ${
+                            pathName === item.url 
+                              ? 'text-blue-400 bg-white/10' 
+                              : 'text-white hover:text-blue-300'
+                          }`}
+                        >
+                          {t(item.title.toLowerCase()) || item.title}
+                        </Link>
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
+                  ))}
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
           </div>
 
-          {/* Auth Buttons */}
+          {/* Auth Buttons - FIXED: Removed legacyBehavior */}
           <div className="flex items-center gap-3">
-            <Button 
-              asChild 
-              variant="ghost" 
-              size="sm"
-              className="font-medium hover:bg-gray-100 text-white hover:text-gray-900 transition-all duration-200"
-            >
-              {
-                token? (
-                  <Link href={"/dashboard"}>Dashboard</Link>
-              
-                ):
-                (
-                  //  <Link href={auth.login.url}>{auth.login.title}</Link>
-                  
-                  <ProfileComponent />
-                 )
-              }
-            </Button>
-            <Button 
+            {token ? (
+              <Button 
+                asChild 
+                variant="ghost" 
+                size="sm"
+                className="font-medium hover:bg-white/10 text-white hover:text-blue-300 transition-all duration-200"
+              >
+                <Link href="/dashboard">{t('dashboard') || 'Dashboard'}</Link>
+              </Button>
+            ) : (
+                  <Button 
               asChild 
               size="sm"
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium px-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
             >
-              <Link href={auth.signup.url}>{auth.signup.title}</Link>
+              <Link href={auth.login.url}>{t('login') || 'Login'}</Link>
             </Button>
+            
+              
+            )}
+
+            {
+              token? (
+            
+                 <ProfileComponent/>
+            
+              ):(
+                 <Button 
+              asChild 
+              size="sm"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium px-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+              <Link href={auth.signup.url}>{t('register') || 'Sign up'}</Link>
+            </Button>
+            
+              )
+            }
+            
+           
+            {/* Language Switcher */}
+            <LocaleSwitcher/>
           </div>
         </nav> 
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - FIXED: Removed legacyBehavior */}
         <div className="lg:hidden">
           <div className="flex items-center justify-between h-16">
             {/* Mobile Logo */}
@@ -150,15 +169,18 @@ const NavbarComponent = ({
                 width={32}
                 height={32}
               />
-              <span className="text-lg font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              <span className="text-lg font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                 {logo.title}
               </span>
             </Link>
-            <MobileMenu logo={logo} menu={menu} auth={auth} />
+            <div className="flex items-center gap-2">
+              <LocaleSwitcher/>
+              <MobileMenu logo={logo} menu={menu} auth={auth} />
+            </div>
           </div>
         </div>
       </div>
-
+      
       {/* Gradient border */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent opacity-50"></div>
     </section>

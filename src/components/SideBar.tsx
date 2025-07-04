@@ -21,14 +21,13 @@ export default function Sidebar() {
         <Home className="h-6 w-6 text-blue-600" />
         <span className="text-xl font-bold">Dashboard</span>
       </div>
-
       <nav className="space-y-2">
         {navigation.map((item) => {
           const Icon = item.icon
           const isActive = pathname === item.href
 
           return (
-            <Link key={item.name} href={item.href}>
+            <Link key={item.name} href={item.href} legacyBehavior>
               <Button
                 variant={isActive ? "default" : "ghost"}
                 className={cn("w-full justify-start gap-2", isActive && "bg-black text-white hover:bg-gray-800")}
@@ -37,10 +36,9 @@ export default function Sidebar() {
                 {item.name}
               </Button>
             </Link>
-          )
+          );
         })}
       </nav>
-
       <div className="mt-8 p-4 bg-gray-50 rounded-lg">
         <h3 className="font-medium text-sm mb-2">Parallel Routes</h3>
         <p className="text-xs text-gray-600">
@@ -48,5 +46,5 @@ export default function Sidebar() {
         </p>
       </div>
     </div>
-  )
+  );
 }
