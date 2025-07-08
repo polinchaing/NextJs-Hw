@@ -14,6 +14,12 @@ interface LoginResponse {
     refreshToken?: string;
 }
 
+interface SignupData {
+  username: string;
+  email: string;
+  password: string;
+  confirmed_password: string;
+}
 // handle login Data 
 export const loginUser = async (loginData: LoginData): Promise<LoginResponse> => {
     try {
@@ -85,7 +91,7 @@ export const getAuthToken = (): string | null => {
         console.log('=== GET AUTH TOKEN DEBUG ===');
         
         // Check all possible storage keys
-        const possibleKeys = ['authToken', '@secure.s.user', 'token', 'access_token','@secure.s.refreshToken', '@secure.s.authToken'];
+        const possibleKeys = ['authToken', '@secure.s.user', 'token', 'access_token'];
         
         for (const key of possibleKeys) {
             const value = secureLocalStorage.getItem(key) as string | null;
@@ -132,7 +138,7 @@ export const getRefreshToken = (): string | null => {
 export const logout = (): void => {
     try {
         // Clear all possible token keys
-        const keysToRemove = ['authToken', '@secure.s.user', 'token', 'access_token', 'refreshToken', 'refresh_token', 'user', '@secure.s.authToken', '@secure.s.refreshToken'];
+        const keysToRemove = ['authToken', '@secure.s.user', 'token', 'access_token', 'refreshToken', 'refresh_token', 'user'];
         
         keysToRemove.forEach(key => {
             try {
@@ -155,3 +161,25 @@ export const isAuthenticated = (): boolean => {
     return !!token;
 };
 
+export const registerUser = async (signupData: SignupData): Promise<any> => {
+  try {
+    const response = await fetch("/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(signupData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Signup failed");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Signup error:", error);
+    throw error;
+  }
+};
